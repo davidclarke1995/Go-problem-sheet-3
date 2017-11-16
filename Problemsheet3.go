@@ -22,7 +22,8 @@ import (
 		//userInput :=inputStr
 
 		userInput := inputStr
-		pattern := `(?!).*\bfather\b.*`
+		pattern := `.*father.*`
+		//pattern := `(?!).*\bfather\b.*`
 		pattern2 := []string{`.*i am(.*)`, `.*I AM(.*)`, `.*I'm(.*)`, `.*i'm(.*)`, `.*im(.*)`, `.*I am(.*)`}
 		output := "Why dont you tell me more about your father?"
 		response := ""
@@ -31,19 +32,19 @@ import (
 
 
 		answers := []string{//responses
-        "I’m not sure what you’re trying to say. Could you explain it to me?",
-        "How does that make you feel?",
-        "Why do you say that?",
+        	"I’m not sure what you’re trying to say. Could you explain it to me?",
+        	"How does that make you feel?",
+        	"Why do you say that?",
         }
 
 
         //matching the word father
         if matched, _ := regexp.MatchString(pattern, userInput); matched {
         //returning the string below
-        response = "input :" + userInput + "\noutput :" + output
+        	response = "Input: " + userInput + "\nOutput :" + output
 
 		} else {
-		response = "input :" + userInput + " \noutput :" + answers[rand.Intn(len(answers))]
+			response = "Input: " + userInput + " \nOutput :" + answers[rand.Intn(len(answers))]
 		}
 
 		for _, checkPattern := range pattern2 {
@@ -63,13 +64,13 @@ import (
        //}
 
         //returning the single string response
-    return answers[rand.Intn(len(answers))]
+    //return answers[rand.Intn(len(answers))]
     }
 
 
 func main() {
 	
-	userInput:= [] string{
+	userInput := [] string{
 		"People say I look like both my mother and father.",
 		"Father was a teacher.",
 		"I was my father’s favourite.",
@@ -85,14 +86,15 @@ func main() {
 	//reader := bufio.NewReader(os.Stdin)
 	//fmt.Println("Hello, how are you?")
 
-//	userInput, _ := reader.ReadString('\n')
-//	fmt.Scanf("%s", &userInput)
+	//	userInput, _ := reader.ReadString('\n')
+	//	fmt.Scanf("%s", &userInput)
 
 
-//userInput:= "I am happy"
-elizaOutput:= ElizaResponse(userInput[rand.Intn(len("userInput"))]);
+	//userInput:= "I am happy"
+	elizaOutput:= ElizaResponse(userInput[rand.Intn(len("userInput"))])
 
 
-
-	fmt.Println(elizaOutput)
+	fmt.Print("\n")
+	fmt.Print(elizaOutput)
+	fmt.Print("\n")
 }//ElizaResponse
