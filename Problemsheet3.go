@@ -5,19 +5,21 @@ package main
 import (
     "fmt"
     "math/rand"
-    //"bufio"
+    "bufio"
     "time"
     "regexp"
+	"os"
 )
 
 
     //function taking in a single string as an input
-    func ElizaResponse() string {
+    func ElizaResponse(inputStr string) string {
 
-        var userInput string
+        //var userInput string
 
-        fmt.Println("Please message me")
-        fmt.Scanf("%s", &userInput)
+        //fmt.Println("Please message me")
+        //fmt.Scanf("%s", &userInput)
+		userInput :=inputStr
 
         //matching the word father
         if matched, _ := regexp.MatchString(`(?i).*\bfather\b.*`, userInput); matched {
@@ -43,6 +45,11 @@ import (
 
 
 func main() {
-rand.Seed(time.Now().UTC().UnixNano())//random number
-ElizaResponse()
+	rand.Seed(time.Now().UTC().UnixNano())//get a random number
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Please message me")
+
+	userInput, _ := reader.ReadString('\n')
+	fmt.Scanf("%s", &userInput)
+	fmt.Println(ElizaResponse(userInput))
 }
