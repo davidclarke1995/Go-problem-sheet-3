@@ -5,10 +5,10 @@ package main
 import (
     "fmt"
     "math/rand"
-    "bufio"
+    //"bufio"
     "time"
     "regexp"
-	"os"
+	//"os"
 )
 
 
@@ -46,10 +46,16 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())//get a random number
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Please message me")
+	//reader := bufio.NewReader(os.Stdin)
+	fmt.Println("Hello, how are you?")
 
-	userInput, _ := reader.ReadString('\n')
-	fmt.Scanf("%s", &userInput)
-	fmt.Println(ElizaResponse(userInput))
+//	userInput, _ := reader.ReadString('\n')
+//	fmt.Scanf("%s", &userInput)
+userInput:= "My father is 58"
+//userInput:= "I am happy"
+elizaOutput:= ElizaResponse(userInput);
+
+
+
+	fmt.Println("\nuser: "+userInput+"\neliza:"+elizaOutput)
 }
