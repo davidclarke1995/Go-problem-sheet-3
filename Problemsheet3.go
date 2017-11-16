@@ -28,7 +28,7 @@ import (
 
         }
 
-        re := regexp.MustCompile("I am ([^.!?]*)[.!?]?")
+        re := regexp.MustCompile(`.*I am(.*)`)
         if re.MatchString(userInput){
         return re.ReplaceAllLiteralString(userInput, "How do you know you are $1")
         }
@@ -51,11 +51,15 @@ func main() {
 
 //	userInput, _ := reader.ReadString('\n')
 //	fmt.Scanf("%s", &userInput)
-userInput:= "My father is 58"
+userInput:= [] string{
+ "I am happy",
+ "I am a mong",
+}
+
 //userInput:= "I am happy"
-elizaOutput:= ElizaResponse(userInput);
+elizaOutput:= ElizaResponse(userInput[1]);
 
 
 
-	fmt.Println("\nuser: "+userInput+"\neliza:"+elizaOutput)
+	fmt.Println("\nuser: "+userInput[1]+"\neliza:"+elizaOutput)
 }
