@@ -9,6 +9,7 @@ import (
     "time"
     "regexp"
 	//"os"
+	"strings"
 )
 
 
@@ -24,7 +25,7 @@ import (
 		userInput := inputStr
 		pattern := `.*father.*`
 		//pattern := `(?!).*\bfather\b.*`
-		pattern2 := []string{`.*i am(.*)`, `.*I AM(.*)`, `.*I'm(.*)`, `.*i'm(.*)`, `.*im(.*)`, `.*I am(.*)`}
+		//pattern2 := []string{`.*i am(.*)`, `.*I AM(.*)`, `.*I'm(.*)`, `.*i'm(.*)`, `.*im(.*)`, `.*I am(.*)`}
 		output := "Why dont you tell me more about your father?"
 		response := ""
 		rand.Seed(time.Now().UTC().UnixNano())
@@ -47,14 +48,17 @@ import (
 			response = "Input: " + userInput + " \nOutput :" + answers[rand.Intn(len(answers))]
 		}
 
-		for _, checkPattern := range pattern2 {
-			re := regexp.MustCompile(checkPattern)
+		//for _, checkPattern := range pattern2 {
+			re := regexp.MustCompile("(?i)(i[' a]*m) (.*)")
 			if re.MatchString(userInput) {
-				match := re.ReplaceAllString(userInput, "How do you know you are $1?")
-				response = "input : " + userInput + " \noutput : " + match
+				matched := re.FindStringSubmatch(userInput)[2]
+				//match := re.ReplaceAllString(userInput, "How do you know you are $1?")
+				matched = matchPronouns(matched)
+				response = "Input :" + userInput + " \noutput : How do you know you are " + matched
+
 				return response
 			} //if re.MatchString
-		} //for pattern2
+		//} //for pattern2
 
 		return response
 
@@ -66,35 +70,66 @@ import (
         //returning the single string response
     //return answers[rand.Intn(len(answers))]
     }
+	func matchPronouns(inputStr string) string {
+		// split inputStr into slice of strings
+		splitStr := strings.Fields(inputStr)
 
+		//reflected pronouns contained in a map
+		pronouns := map[string]string{
+			"i":      "you",
+			"was":    "were",
+			"i'd":    "you would",
+			"i've":   "you have",
+			"i'll":   "you will",
+			"my":     "your",
+			"are":    "am",
+			"you've": "I have",
+			"you'll": "I will",
+			"your":   "my",
+			"yours":  "mine",
+			"you":    "I",
+			"me":     "you",
+			"me.":    "you",
+			"you're": "I’m",
+		}//map
 
-func main() {
-	
-	userInput := [] string{
-		"People say I look like both my mother and father.",
-		"Father was a teacher.",
-		"I was my father’s favourite.",
-		"I'm looking forward to the weekend.",
-		"My grandfather was French!",
-		"I am happy.",
-		"I am not happy with your responses.",
-		"I am not sure that you understand the effect that your questions are having on me.",
-		"I am supposed to just take what you’re saying at face value?",
+		//loop map to check
+		for index, elizaOutput := range splitStr {
+			if value, ok := pronouns[strings.ToLower(elizaOutput)]; ok {
+				splitStr[index] = value
+			}
+		}//loop map
+
+		return strings.Join(splitStr, " ")
 	}
-	
-	rand.Seed(time.Now().UTC().UnixNano())//get a random number
-	//reader := bufio.NewReader(os.Stdin)
-	//fmt.Println("Hello, how are you?")
 
-	//	userInput, _ := reader.ReadString('\n')
-	//	fmt.Scanf("%s", &userInput)
+	func main() {
+		//array of inputs
+		userInput := [] string{
+			"People say I look like both my mother and father.",
+			"Father was a teacher.",
+			"I was my father’s favourite.",
+			"I'm looking forward to the weekend.",
+			"My grandfather was French!",
+			"I am happy.",
+			"I am not happy with your responses.",
+			"I am not sure that you understand the effect that your questions are having on me.",
+			"I am supposed to just take what you’re saying at face value?",
+		}
+		
+		rand.Seed(time.Now().UTC().UnixNano())//get a random number
+		//reader := bufio.NewReader(os.Stdin)
+		//fmt.Println("Hello, how are you?")
+
+		//	userInput, _ := reader.ReadString('\n')
+		//	fmt.Scanf("%s", &userInput)
 
 
-	//userInput:= "I am happy"
-	elizaOutput:= ElizaResponse(userInput[rand.Intn(len("userInput"))])
+		//userInput:= "I am happy"
+		elizaOutput:= ElizaResponse(userInput[rand.Intn(len("userInput"))])
 
 
-	fmt.Print("\n")
-	fmt.Print(elizaOutput)
-	fmt.Print("\n")
-}//ElizaResponse
+		fmt.Print("\n")
+		fmt.Print(elizaOutput)
+		fmt.Print("\n")
+	}//Main function
