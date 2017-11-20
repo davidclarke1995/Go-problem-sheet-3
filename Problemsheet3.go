@@ -48,6 +48,15 @@ import (
 			response = "Input: " + userInput + " \nOutput :" + answers[rand.Intn(len(answers))]
 		}
 
+		//Getting the age pattern
+		re3 := regexp.MustCompile("[Ii] (?:T|t)(?:U|u)(?:R|r)(?:N|n)(?:E|e)(?:D|d) ([0-9]+)[.!?]?")
+	
+		if re3.MatchString(userInput){	
+		return re3.ReplaceAllString(userInput, "You are $1 years old?") 
+
+		}
+
+
 		//for _, checkPattern := range pattern2 {
 			re := regexp.MustCompile("(?i)(i[' a]*m) (.*)")
 			if re.MatchString(userInput) {
@@ -115,6 +124,7 @@ import (
 			"I am not happy with your responses.",
 			"I am not sure that you understand the effect that your questions are having on me.",
 			"I am supposed to just take what you’re saying at face value?",
+			"I am 20 years old",
 		}
 		
 		rand.Seed(time.Now().UTC().UnixNano())//get a random number
